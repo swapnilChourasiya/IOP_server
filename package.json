@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
+    "express-sse": "^0.5.3",
     "python-shell": "^3.0.1"
   },
   "devDependencies": {

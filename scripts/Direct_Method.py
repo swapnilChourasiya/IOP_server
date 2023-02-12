@@ -66,8 +66,8 @@ for i in range(n):
 
 output = pd.DataFrame(arr, columns=['Branch Number'])
 output.set_index('Branch Number', inplace = True)
-output['Voltage magnitude'] = mag
-output['Voltage angle'] = ang
+output['Voltage_magnitude'] = mag
+output['Voltage_angle'] = ang
 # print(output)print
 result = output.to_json()
 print(result)
