@@ -5,11 +5,16 @@ import json
 
 line_data = json.loads(sys.argv[1])
 df = pd.DataFrame(line_data)
+# print(df)
 
 n = df.shape[0]
 bibc = np.zeros([n, n])
 bcbv = np.zeros([n, n], dtype = complex)
 load = np.zeros([n, 1], dtype = complex)
+
+# print(type(df))
+# print(df.iat[i, 1])
+# print(type(df.iat[i, 1]))
 
 for i in range(n):
     a = df.iat[i, 1]

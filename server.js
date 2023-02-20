@@ -39,5 +39,5 @@ app.post("/",(req,res) => {
 })
 
 
-app.listen(5000, () => {console.log("Loda connected on port 5000")})
+app.listen(5000, () => {console.log("Server connected on port 5000")})
 
