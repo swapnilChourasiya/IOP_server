@@ -6,16 +6,11 @@ import json
 
 line_data = json.loads(sys.argv[1])
 df = pd.DataFrame(line_data)
-# print(df)
 
 n = df.shape[0]
 bibc = np.zeros([n, n])
 bcbv = np.zeros([n, n], dtype = complex)
 load = np.zeros([n, 1], dtype = complex)
-
-# print(type(df))
-# print(df.iat[i, 1])
-# print(type(df.iat[i, 1]))
 
 for i in range(n):
     a = df.iat[i, 1]
@@ -38,13 +33,8 @@ for i in range(n):
     load[i][0] = df.iat[i, 5] + 1j*df.iat[i, 6]
     
 load = load*1000
-    
-# print(load, '\n')
-# print(bibc, '\n')
-# print(bcbv, '\n')
 
 dlf = bcbv @ bibc
-# print(dlf)
 
 Vs = 11000 + 0j
 BV = np.full(shape = (n, 1), fill_value = Vs) # Initial Guess
@@ -58,13 +48,13 @@ while error > 0.1:
     BV = BV_new
     num = num + 1
     
-# print("Number of iterations is :", num)
-# print("\nVoltage magnitude:-")
-mag = abs(BV)
-# print(mag)
-# print("\nVoltage angle:-")
+mag = abs(BV)/1000
+for i in range(n):
+    mag[i][0] = round(mag[i][0], 3)
+
 ang = np.angle(BV)*180/math.pi
-# print(ang)
+for i in range(n):
+    ang[i][0] = round(ang[i][0], 3)
 
 arr = []
 for i in range(n):
@@ -74,7 +64,7 @@ output = pd.DataFrame(arr, columns=['Branch Number'])
 output.set_index('Branch Number', inplace = True)
 output['Voltage_magnitude'] = mag
 output['Voltage_angle'] = ang
-# print(output)print
+
 result = output.to_json()
 print(result)
 sys.stdout.flush()
