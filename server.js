@@ -26,10 +26,10 @@ app.post("/",(req,res) => {
    if(!parcel){
       return res.status(400).send({status: 'failed'})
    }
-   PythonShell.run('Direct_Method_1.py', options, function (err,results) { 
+   PythonShell.run('Direct_Method.py', options, function (err,results) { 
       if (err) throw err;
-      console.log('this worked fine');
-      console.log(results);  
+      // console.log('this worked fine');
+      // console.log(results);  
       result = JSON.stringify(results); 
   });
   // pythonProcess.stdout.on('data', (data) => {const dataString= data.toString()
