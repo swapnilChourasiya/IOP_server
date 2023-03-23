@@ -1,15 +1,24 @@
 import numpy as np
 import pandas as pd
 import sys
+import math
 import json
+# import matplotlib.pyplot as plt
+# import matplotlib.ticker as mticker
+# from matplotlib import style
 
 line_data = json.loads(sys.argv[1])
 df = pd.DataFrame(line_data)
-   
+# print(df)
+
 n = df.shape[0]
 bibc = np.zeros([n, n])
 bcbv = np.zeros([n, n], dtype = complex)
 load = np.zeros([n, 1], dtype = complex)
+
+# print(type(df))
+# print(df.iat[i, 1])
+# print(type(df.iat[i, 1]))
 
 for i in range(n):
     a = df.iat[i, 1]
@@ -54,10 +63,14 @@ while error > 0.1:
     
 # print("Number of iterations is :", num)
 # print("\nVoltage magnitude:-")
-mag = abs(BV)
+mag = abs(BV)/1000
+for i in range(n):
+    mag[i][0] = round(mag[i][0], 3)
 # print(mag)
 # print("\nVoltage angle:-")
-ang = np.angle(BV)*180/3.14
+ang = np.angle(BV)*180/math.pi
+for i in range(n):
+    ang[i][0] = round(ang[i][0], 3)
 # print(ang)
 
 arr = []
@@ -69,6 +82,20 @@ output.set_index('Branch Number', inplace = True)
 output['Voltage_magnitude'] = mag
 output['Voltage_angle'] = ang
 # print(output)print
-result = output.to_json()
+result = output.to_json(orient = 'records')
 print(result)
+
+# x = [i+2 for i in range(n)]
+# plt.style.use('fivethirtyeight')
+# plt.plot(x, output['Voltage magnitude(in kV)'], marker = 's')
+# plt.gca().xaxis.set_major_locator(mticker.MultipleLocator(1))
+# plt.gca().yaxis.set_major_locator(mticker.MultipleLocator(0.1))
+# plt.gca().ticklabel_format(useOffset=False)
+# plt.xlabel('No of buses')
+# plt.ylabel('Voltage (in kV)')
+# plt.title('Voltage Profile of Distribution System')
+# plt.tight_layout()
+# plt.savefig('./images/voltage_profile.svg')
+# plt.close()
+
 sys.stdout.flush()
