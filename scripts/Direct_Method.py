@@ -1,15 +1,22 @@
 import numpy as np
 import pandas as pd
 import sys
+import math
 import json
+
 
 line_data = json.loads(sys.argv[1])
 df = pd.DataFrame(line_data)
-   
+# print(df)
+
 n = df.shape[0]
 bibc = np.zeros([n, n])
 bcbv = np.zeros([n, n], dtype = complex)
 load = np.zeros([n, 1], dtype = complex)
+
+# print(type(df))
+# print(df.iat[i, 1])
+# print(type(df.iat[i, 1]))
 
 for i in range(n):
     a = df.iat[i, 1]
@@ -54,10 +61,14 @@ while error > 0.1:
     
 # print("Number of iterations is :", num)
 # print("\nVoltage magnitude:-")
-mag = abs(BV)
+mag = abs(BV)/1000
+for i in range(n):
+    mag[i][0] = round(mag[i][0], 3)
 # print(mag)
 # print("\nVoltage angle:-")
-ang = np.angle(BV)*180/3.14
+ang = np.angle(BV)*180/math.pi
+for i in range(n):
+    ang[i][0] = round(ang[i][0], 3)
 # print(ang)
 
 arr = []
@@ -69,6 +80,8 @@ output.set_index('Branch Number', inplace = True)
 output['Voltage_magnitude'] = mag
 output['Voltage_angle'] = ang
 # print(output)print
-result = output.to_json()
+result = output.to_json(orient = 'records')
 print(result)
+
+
 sys.stdout.flush()
