@@ -2,7 +2,7 @@
 
 clone the repo by running the command
 
-### `git clone https://github.com/swapnilChoura.git`
+### `git clone https://github.com/swapnilChourasiya/IOP_server.git`
 
 
 Python is required to run the server
