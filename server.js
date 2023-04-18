@@ -22,7 +22,27 @@ app.post("/dmMethod", (req,res) => {
    if(!parcel){ return res.status(400).send({status: 'failed'})}
    PythonShell.run('Direct_Method.py', options, function (err,results) { 
     if (err) throw err; 
-    console.log('this worked fine'); 
+    console.log('this worked fine for directMethod1'); 
+    console.log(results);  
+    DMResults = JSON.stringify(results);  
+    res.status(201).send(DMResults)
+  });
+})
+
+app.post("/dmMethod2", (req,res) => {
+
+   const {parcel} = req.body
+   arguments = JSON.stringify(parcel); 
+
+   let options = { 
+    scriptPath: "./scripts",
+    args: arguments 
+   }   
+
+   if(!parcel){ return res.status(400).send({status: 'failed'})}
+   PythonShell.run('Direct_Method2.py', options, function (err,results) { 
+    if (err) throw err; 
+    console.log('this worked fine for DirectMethod2:'); 
     console.log(results);  
     DMResults = JSON.stringify(results);  
     res.status(201).send(DMResults)
