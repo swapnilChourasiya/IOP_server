@@ -14,37 +14,40 @@ bibc = np.zeros([n, n])
 bcbv = np.zeros([n, n], dtype = complex)
 load = np.zeros([n, 1], dtype = complex)
 
-# print(type(df))
-# print(df.iat[i, 1])
-# print(type(df.iat[i, 1]))
 
+#BIBC matrix calculation
 for i in range(n):
-    a = df.iat[i, 1]
-    b = df.iat[i, 2]
+    #branch from bus a to bus b
+    a = df.iat[i, 1] #sending bus
+    b = df.iat[i, 2] #receiving bus
     if a != 1:
         for j in range(n):
             bibc[j][b-2] = bibc[j][a-2]
-    bibc[i][b-2] = 1
+    bibc[i][b-2] = 1 #no of phases between bus a and b
 
+#BCBV matrix calculation
 for i in range(n):
-    a = df.iat[i, 1]
-    b = df.iat[i, 2]
-    z = df.iat[i, 3] + 1j*df.iat[i, 4]
+    #branch from bus a to bus b
+    a = df.iat[i, 1] #sending bus
+    b = df.iat[i, 2] #receiving bus
+    z = df.iat[i, 3] + 1j*df.iat[i, 4] #impedance R + jB
     if a != 1:
         for j in range(n):
             bcbv[b-2][j] = bcbv[a-2][j]
-    bcbv[b-2][i] = z
+    bcbv[b-2][i] = z 
     
+#load vector calcutions
 for i in range(n):
-    load[i][0] = df.iat[i, 5] + 1j*df.iat[i, 6]
+    load[i][0] = df.iat[i, 5] + 1j * df.iat[i, 6] #P + jQ
     
-load = load*1000
+load = load*1000 #since load is given in kV
 
-dlf = bcbv @ bibc
+dlf = bcbv @ bibc #dlf matrix 
 
-Vs = 11000 + 0j
-BV = np.full(shape = (n, 1), fill_value = Vs) # Initial Guess
+Vs = 11000 + 0j #base voltage and initial guess of all buses
+BV = np.full(shape = (n, 1), fill_value = Vs) # Initial Guess of bus voltage matrix
 
+#Running iterations till convergence
 error = 1
 num = 0
 while error > 0.1:
