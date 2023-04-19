@@ -32,11 +32,11 @@ app.post("/dmMethod", (req,res) => {
 app.post("/dmMethod2", (req,res) => {
 
    const {parcel} = req.body
-   arguments = JSON.stringify(parcel); 
+   arguments= parcel.map((args) => JSON.stringify(args));
 
    let options = { 
     scriptPath: "./scripts",
-    args: arguments 
+    args: [arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]]
    }   
 
    if(!parcel){ return res.status(400).send({status: 'failed'})}
